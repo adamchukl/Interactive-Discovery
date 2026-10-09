@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Room 360 - Escape Room</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+    <h1>Welcome to Room 360</h1>
+
+    <p id="description">
+        Your adventure begins here. Can you solve the puzzles and escape the room?
+    </p>
+
+    <div id="game">
+        <img id="screenImage" src="images/classroom.png" alt="A mysterious classroom at night">
+    </div>
+        <div id="hotspot">
+            <button class="hotspot" id="clock" onclick="showScene('clock')" aria-label="Investigate the clock"></button>
+            <button class="hotspot" id="bookshelf" onclick="showScene('bookshelf')" aria-label="Investigate the bookshelf"></button>
+            <button class="hotspot" id="desk" onclick="showScene('desk')" aria-label="Investigate the desk"></button>
+            <button class="hotspot" id="computer" onclick="showScene('computer')" aria-label="Investigate the computer"></button>
+            <button class="hotspot" id="door" onclick="showScene('door')" aria-label="Investigate the door"></button>
+        </div>
+    </div>
+
+    <p id="message">
+        Click an object to investigate it.
+    </p>
+
+    <button id="backButton" onclick="goBack()">
+        Back to Classroom
+    </button>
+
+    <script src="js/script.js"></script>
+
+
+    
+</body>
+</html>
