@@ -164,10 +164,10 @@ function insertUSB(){
 
 function openFile(file){
     if (file == "instructions"){
-        document.getElementById("message").innerHTML = "TIME gives the beginning.<br>" +
-                                                        "Count those MARKED FOR RETURN.<br>" +
+        document.getElementById("message").innerHTML = "The HOUR of TIME gives the beginning.<br>" +
+                                                        "Where others once SAT, count what they left BEHIND.<br>" +
                                                         "KNOWLEDGE bears the same mark.<br>" +
-                                                        "The LAST remains here.";
+                                                        "At the end, only YOU remain.";
     }
     else if (file == "archive"){
         document.getElementById("message").innerHTML = "The archive is corrupted. Nothing useful here.";
