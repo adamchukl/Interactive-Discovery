@@ -1,0 +1,251 @@
+let currentScene = "classroom";
+let hasKey = false;
+let hasUSB = false;
+let drawerUnlocked = false;
+let usbInserted = false;
+let enteredCode = "";
+let correctCode = "9631";
+let escaped = false;
+
+function showScene(scene){
+    currentScene = scene
+
+    document.getElementById("clock").style.display = "none";
+    document.getElementById("bookshelf").style.display = "none";
+    document.getElementById("desk").style.display = "none";
+    document.getElementById("computer").style.display = "none";
+    document.getElementById("door").style.display = "none";
+    document.getElementById("redBook").style.display = "none";
+    document.getElementById("drawer").style.display = "none";
+    document.getElementById("computerScreen").style.display = "none";
+    document.getElementById("doorKeypad").style.display = "none";
+
+    // change images
+    if (scene == "clock"){
+        document.getElementById("sceneImage").src = "images/clock.png";
+        document.getElementById("message").innerHTML = "The clock isn't ticking, it stopped at 9:15.";
+    }
+
+    else if (scene == "bookshelf"){
+        document.getElementById("sceneImage").src = "images/bookshelf.png";
+        document.getElementById("message").innerHTML = "An old bookshelf, something looks weird.";
+
+        document.getElementById("redBook").style.display = "block";
+    }
+
+    else if (scene == "desk"){
+        document.getElementById("sceneImage").src = "images/desk.png";
+        document.getElementById("message").innerHTML = "The teacher desk has a locked drawer.";
+
+        document.getElementById("drawer").style.display = "block";
+    }
+
+    else if (scene == "computer"){
+        document.getElementById("sceneImage").src = "images/computer.png";
+        document.getElementById("computerScreen").style.display = "block";
+
+        if (usbInserted == true){
+            document.getElementById("message").innerHTML = "The USB drive is connected.";
+            document.getElementById("computerMessage").innerHTML = "UNKNOWN DEVICE DETECTED";
+
+            document.getElementById("usbButton").style.display = "none";
+            document.getElementById("computerFiles").style.display = "block";
+        }
+        else if (hasUSB == true){
+            document.getElementById("message").innerHTML = "You have a USB drive. Maybe you can use it here.";
+
+            document.getElementById("computerMessage").innerHTML = "SYSTEM LOCKED - External device required.";
+
+            document.getElementById("usbButton").style.display = "block";
+            document.getElementById("computerFiles").style.display = "none";
+        }
+        else{
+            document.getElementById("message").innerHTML = "The computer requires an external device.";
+            document.getElementById("computerMessage").innerHTML = "SYSTEM LOCKED - NO DEVICE DETECTED";
+
+            document.getElementById("usbButton").style.display = "none";
+            document.getElementById("computerFiles").style.display = "none";
+        }
+    }
+
+    else if (scene == "door"){
+        document.getElementById("sceneImage").src = "images/door.png";
+        document.getElementById("message").innerHTML = "The door is locked with a four digit keypad.";
+
+        document.getElementById("doorKeypad").style.display = "block";
+
+        enteredCode = "";
+        document.getElementById("codeDisplay").innerHTML = "_ _ _ _";
+        document.getElementById("keypadMessage").innerHTML = "";
+    }
+
+    else{
+        document.getElementById("sceneImage").src = "images/classroom.png";
+        document.getElementById("message").innerHTML = "You are trapped in a classroom. Find a way out!";
+
+        document.getElementById("clock").style.display = "block";
+        document.getElementById("bookshelf").style.display = "block";
+        document.getElementById("desk").style.display = "block";
+        document.getElementById("computer").style.display = "block";
+        document.getElementById("door").style.display = "block";
+    }
+
+    if (scene == "classroom"){
+        document.getElementById("backButton").style.display = "none";
+    }
+    else{
+        document.getElementById("backButton").style.display = "block";
+    }
+
+}
+
+function collectKey(){
+    if (hasKey == false){
+        hasKey = true;
+
+        document.getElementById("message").innerHTML = "Something was hidden next to the red book... You find a brass key!";
+
+        updateInventory();
+    }
+    else{
+        document.getElementById("message").innerHTML = "You already collected the key.";
+    }
+}
+
+function openDrawer(){
+    if (drawerUnlocked == true){
+
+        document.getElementById("message").innerHTML = "The drawer is already open. There is nothing else inside.";
+    }
+    else if (hasKey == true){
+        drawerUnlocked = true;
+        hasUSB = true;
+
+        document.getElementById("message").innerHTML = "You used the brass key to unlock the drawer.<br>Inside, you find a USB drive!";
+
+        updateInventory();
+    }
+    else{
+        document.getElementById("message").innerHTML = "The drawer is locked. You need a key to open it";
+    }
+}
+
+function updateInventory(){
+
+    let items ="";
+
+    if (hasKey == true){
+        items += "🔑 Brass Key";
+    }
+
+    if (hasUSB == true){
+        items += "<br>💾 USB Drive";
+    }
+
+    if (items == ""){
+        items += "Empty";
+    }
+
+    document.getElementById("inventoryItems").innerHTML = items;
+    
+}
+
+function insertUSB(){
+    if (hasUSB == true){
+        usbInserted = true;
+
+        document.getElementById("computerMessage").innerHTML = "UNKNOWN DEVICE DETECTED";
+        document.getElementById("usbButton").style.display = "none";
+        document.getElementById("computerFiles").style.display = "block";
+        document.getElementById("message").innerHTML = "The USB drive works! Some hidden files appeared.";
+    }
+}
+
+function openFile(file){
+    if (file == "instructions"){
+        document.getElementById("message").innerHTML = "TIME gives the beginning.<br>" +
+                                                        "Count those MARKED FOR RETURN.<br>" +
+                                                        "KNOWLEDGE bears the same mark.<br>" +
+                                                        "The LAST remains here.";
+    }
+    else if (file == "archive"){
+        document.getElementById("message").innerHTML = "The archive is corrupted. Nothing useful here.";
+    }
+    else if (file == "final"){
+        document.getElementById("message").innerHTML = "FINAL RECORD: one last step remains. Find the exit.";
+    }
+}
+
+function pressNumber(number){
+    if (enteredCode.length < 4){
+        enteredCode += number;
+
+        document.getElementById("codeDisplay").innerHTML = enteredCode;
+    }
+}
+
+function clearCode(){
+    enteredCode = "";
+
+    document.getElementById("codeDisplay").innerHTML = "_ _ _ _";
+
+    document.getElementById("keypadMessage").innerHTML = "";
+}
+
+function checkCode(){
+    if (enteredCode == correctCode){
+        escaped = true;
+
+        document.getElementById("game").style.display = "none";
+        document.getElementById("inventory").style.display = "none";
+        document.getElementById("backButton").style.display = "none";
+
+        document.getElementById("message").innerHTML = "The door unlocks! You escaped Room 360!";
+        document.getElementById("victoryScreen").style.display = "block";
+    }
+    else{
+        document.getElementById("keypadMessage").innerHTML = "ACCESS DENIED. Try again.";
+
+        enteredCode = "";
+
+        document.getElementById("codeDisplay").innerHTML = "_ _ _ _";
+    }
+}
+
+function restartGame(){
+    currentScene = "classroom";
+    hasKey = false;
+    hasUSB = false;
+    drawerUnlocked = false;
+    usbInserted = false;
+    enteredCode = "";
+    escaped = false;
+
+    document.getElementById("game").style.display = "block";
+    document.getElementById("inventory").style.display = "block";
+    document.getElementById("victoryScreen").style.display = "none";
+
+    document.getElementById("computerFiles").style.display = "none";
+    document.getElementById("usbButton").style.display = "none";
+
+    document.getElementById("codeDisplay").innerHTML = "_ _ _ _";
+    document.getElementById("keypadMessage").innerHTML = "";
+
+    updateInventory();
+    showScene("classroom");
+}
+
+function toggleMusic(){
+    let music = document.getElementById("backgroundMusic");
+    let button = document.getElementById("musicButton");
+
+    if (music.paused == true){
+        music.volume = 0.3;
+        music.play();
+        button.innerHTML = "Music On";
+    }
+    else{
+        music.pause();
+        button.innerHTML = "Music Off";
+    }
+}

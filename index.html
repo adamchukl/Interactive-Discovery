@@ -11,29 +11,85 @@
 <body>
     <h1>Welcome to Room 360</h1>
 
-    <p id="description">
-        Your adventure begins here. Can you solve the puzzles and escape the room?
+    <p id="message">
+        You are trapped in a classroom. Find a way out!
     </p>
 
     <div id="game">
-        <img id="screenImage" src="images/classroom.png" alt="A mysterious classroom at night">
-    </div>
-        <div id="hotspot">
-            <button class="hotspot" id="clock" onclick="showScene('clock')" aria-label="Investigate the clock"></button>
-            <button class="hotspot" id="bookshelf" onclick="showScene('bookshelf')" aria-label="Investigate the bookshelf"></button>
-            <button class="hotspot" id="desk" onclick="showScene('desk')" aria-label="Investigate the desk"></button>
-            <button class="hotspot" id="computer" onclick="showScene('computer')" aria-label="Investigate the computer"></button>
-            <button class="hotspot" id="door" onclick="showScene('door')" aria-label="Investigate the door"></button>
+        <img id="sceneImage" src="images/classroom.png" alt="A mysterious classroom at night">
+
+        <button class="hotspot" id="clock" onclick="showScene('clock')" aria-label="Investigate clock"></button>
+        <button class="hotspot" id="bookshelf" onclick="showScene('bookshelf')" aria-label="Investigate bookshelf"></button>
+        <button class="hotspot" id="desk" onclick="showScene('desk')" aria-label="Investigate desk"></button>
+        <button class="hotspot" id="computer" onclick="showScene('computer')" aria-label="Investigate computer"></button>
+        <button class="hotspot" id="door" onclick="showScene('door')" aria-label="Investigate the door"></button>
+
+        <button class="hotspot" id="redBook" onclick="collectKey()" aria-label="Investigate red book"></button>
+        <button class="hotspot" id="drawer" onclick="openDrawer()" aria-label="Investigate locked drawer"></button>
+
+        <div id="computerScreen">
+            <p id="computerMessage">SYSTEM LOCKED</p>
+
+            <button id="usbButton" onclick="insertUSB()">Insert USB Drive</button>
+            <div id="computerFiles">
+
+                <p>RECOVERED FILES</p>
+
+                <button onclick="openFile('instructions')">instructions.txt</button>
+                <button onclick="openFile('archive')">archive.dat</button>
+                <button onclick="openFile('final')">final.log</button>
+            </div>
+        </div>
+
+        <div id="doorKeypad">
+            <h3>DOOR LOCKED</h3>
+            <p>Enter the four digit code</p>
+            <p id="codeDisplay">_ _ _ _</p>
+
+            <div id="keypadButtons">
+                <button onclick="pressNumber(1)">1</button>
+                <button onclick="pressNumber(2)">2</button>
+                <button onclick="pressNumber(3)">3</button>
+                <button onclick="pressNumber(4)">4</button>
+                <button onclick="pressNumber(5)">5</button>
+                <button onclick="pressNumber(6)">6</button>
+                <button onclick="pressNumber(7)">7</button>
+                <button onclick="pressNumber(8)">8</button>
+                <button onclick="pressNumber(9)">9</button>
+
+                <button onclick="clearCode()">C</button>
+                <button onclick="pressNumber(0)">0</button>
+                <button onclick="checkCode()">OK</button>
+            </div>
+            <p id="keypadMessage"></p>
         </div>
     </div>
 
-    <p id="message">
-        Click an object to investigate it.
-    </p>
+    <div id="victoryScreen">
+        <h2>Room 360</h2>
+        <h3>ESCAPE SUCCESSFUL!</h3>
 
-    <button id="backButton" onclick="goBack()">
+        <p>The door finally unlocks...</p>
+        <p>You solved the mystery and escaped the classroom!</p>
+
+        <button onclick="restartGame()">Play Again</button>
+    </div>
+
+
+    <div id="inventory">
+        <h3>Inventory</h3>
+        <p id="inventoryItems">Empty</p>
+    </div>
+
+    <button id="backButton" onclick="showScene('classroom')">
         Back to Classroom
     </button>
+
+    <audio id="backgroundMusic" loop>
+        <source src="audio/background.mp3" type="audio/mp3">
+    </audio>
+
+    <button id="musicButton" onclick="toggleMusic()">Music Off</button>
 
     <script src="js/script.js"></script>
 
